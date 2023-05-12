@@ -1,39 +1,42 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-#define MAX_REQUESTS 100
+void findAverageTime(int requests[], int n, int head)
+{
+    int total_head_movement = 0,i;
 
-int abs_diff(int a, int b) {
-    return (a > b) ? (a - b) : (b - a);
-}
-double average_head_movement(int requests[], int num_requests, int start) {
-    int current = start;
-    int total_head_movement = 0;
-    for (int i = 0; i < num_requests; i++) {
-        total_head_movement += abs_diff(current, requests[i]);
-        current = requests[i];
+    printf("\nSequence of disk access:\n");
+
+    for ( i = 0; i < n; i++) {
+        printf("%d -> ", requests[i]);
+        total_head_movement += abs(head - requests[i]);
+        head = requests[i];
     }
 
-    return (double) total_head_movement / (double) num_requests;
+    printf("\n\nAverage Head Movement: %.2f\n", (float)total_head_movement / n);
 }
 
-int main() {
-    int requests[MAX_REQUESTS];
-    int num_requests, start;
-    printf("Enter the number of requests: ");
-    scanf("%d", &num_requests);
+int main()
+{
+    int n,i;
 
-    printf("Enter the starting position of the disk head: ");
-    scanf("%d", &start);
+    printf("Enter the number of disk requests: ");
+    scanf("%d", &n);
 
-    printf("Enter the requests:\n");
-    for (int i = 0; i < num_requests; i++) {
+    int requests[n];
+
+    printf("\nEnter the disk requests:\n");
+    for ( i = 0; i < n; i++) {
         printf("Request %d: ", i + 1);
         scanf("%d", &requests[i]);
     }
-    double avg_head_movement = average_head_movement(requests, num_requests, start);
-    printf("Average head movement: %.2lf\n", avg_head_movement);
+
+    int head;
+
+    printf("\nEnter the initial head position: ");
+    scanf("%d", &head);
+
+    findAverageTime(requests, n, head);
 
     return 0;
 }
